@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload to Discord</title>
+    <link rel="stylesheet" href="style.css">
     <style>
         #progressContainer {
             width: 100%;
@@ -26,7 +27,7 @@
     <label for="webhookUrl">Discord Webhook URL:</label>
     <input type="text" id="webhookUrl" placeholder="Enter your Discord webhook URL">
     <br><br>
-    <input type="file" id="folderInput" webkitdirectory directory multiple>
+    <input type="file" id="folderInput" webkitdirectory directory multiple onchange="checkFileSelection(this)">
     <button onclick="uploadFiles()">Upload</button>
     <div id="progressContainer">
         <div id="progressBar">0%</div>
@@ -36,6 +37,15 @@
         const maxFilesPerBatch = 10;
         const maxFileSizeMB = 10;
         const videoExtensions = ['mp4', 'mkv', 'avi', 'mov'];
+        let folderInput;
+
+        function checkFileSelection(input) {
+            if (input.files.length > 0 && !input.webkitdirectory) {
+                alert('Please select a folder.');
+            } else {
+                folderInput = input;
+            }
+        }
 
         async function uploadFiles() {
             const webhookUrl = document.getElementById('webhookUrl').value;
@@ -44,7 +54,11 @@
                 return;
             }
 
-            const folderInput = document.getElementById('folderInput');
+            if (!folderInput || folderInput.files.length === 0) {
+                alert('Please select a folder or valid files.');
+                return;
+            }
+
             const files = Array.from(folderInput.files); // Convert FileList to Array
             const totalFiles = files.length;
             let currentBatch = [];
