@@ -25,16 +25,13 @@
 <body>
     <h1>Upload to Discord</h1>
     <label for="webhookUrl">Discord Webhook URL:</label>
-    <input type="text" id="webhookUrl" placeholder="Enter your Discord webhook URL">
-    <br><br>
-    <label>
-        <input type="radio" name="uploadOption" value="selectFolder" checked onclick="toggleInput(this.value)"> Upload Folder
-    </label>
-    <label>
-        <input type="radio" name="uploadOption" value="selectFiles" onclick="toggleInput(this.value)"> Upload Individual Files
-    </label>
-    <br><br>
-    <input type="file" id="folderInput" webkitdirectory directory multiple style="display: none;">
+    <input type="text" id="webhookUrl" placeholder="Enter your Discord webhook URL"><br><br>
+    
+    <label for="uploadMethod">Select upload method:</label><br>
+    <input type="radio" id="uploadFolder" name="uploadMethod" value="folder" checked onclick="toggleInput()"> Upload Folder<br>
+    <input type="radio" id="uploadFiles" name="uploadMethod" value="files" onclick="toggleInput()"> Upload Individual Files<br><br>
+    
+    <input type="file" id="folderInput" webkitdirectory directory multiple>
     <input type="file" id="fileInput" multiple style="display: none;">
     <button onclick="uploadFiles()">Upload</button>
     <div id="progressContainer">
@@ -46,9 +43,16 @@
         const maxFileSizeMB = 10;
         const videoExtensions = ['mp4', 'mkv', 'avi', 'mov'];
 
-        function toggleInput(value) {
-            document.getElementById('folderInput').style.display = value === 'selectFolder' ? 'block' : 'none';
-            document.getElementById('fileInput').style.display = value === 'selectFiles' ? 'block' : 'none';
+        function toggleInput() {
+            const folderInput = document.getElementById('folderInput');
+            const fileInput = document.getElementById('fileInput');
+            if (document.getElementById('uploadFolder').checked) {
+                folderInput.style.display = 'block';
+                fileInput.style.display = 'none';
+            } else {
+                folderInput.style.display = 'none';
+                fileInput.style.display = 'block';
+            }
         }
 
         async function uploadFiles() {
@@ -58,21 +62,16 @@
                 return;
             }
 
-            const uploadOption = document.querySelector('input[name="uploadOption"]:checked').value;
-            // const files = Array.from(folderInput.files); 
             let files;
-            if (uploadOption === 'selectFolder') {
-                files = Array.from(folderInput.files);
-                if (files.length === 0) {
-                    alert('Please select a folder.');
-                    return;
-                }
+            if (document.getElementById('uploadFolder').checked) {
+                files = Array.from(document.getElementById('folderInput').files);
             } else {
-                files = Array.from(folderInput.files);
-                if (files.length === 0) {
-                    alert('Please select files.');
-                    return;
-                }
+                files = Array.from(document.getElementById('fileInput').files);
+            }
+
+            if (files.length === 0) {
+                alert('Please select files.');
+                return;
             }
 
             const totalFiles = files.length;
@@ -181,7 +180,6 @@
             const progressPercent = Math.round((uploaded / total) * 100);
             progressBar.style.width = `${progressPercent}%`;
             progressBar.textContent = `${progressPercent}%`;
-
         }
     </script>
 </body>
