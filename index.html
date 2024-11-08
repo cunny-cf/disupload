@@ -23,11 +23,19 @@
     </style>
 </head>
 <body>
-    <h1>Upload Folder to Discord</h1>
+    <h1>Upload to Discord</h1>
     <label for="webhookUrl">Discord Webhook URL:</label>
     <input type="text" id="webhookUrl" placeholder="Enter your Discord webhook URL">
     <br><br>
-    <input type="file" id="folderInput" webkitdirectory directory multiple onchange="checkFileSelection(this)">
+    <label>
+        <input type="radio" name="uploadOption" value="selectFolder" checked onclick="toggleInput(this.value)"> Upload Folder
+    </label>
+    <label>
+        <input type="radio" name="uploadOption" value="selectFiles" onclick="toggleInput(this.value)"> Upload Individual Files
+    </label>
+    <br><br>
+    <input type="file" id="folderInput" webkitdirectory directory multiple style="display: none;">
+    <input type="file" id="fileInput" multiple style="display: none;">
     <button onclick="uploadFiles()">Upload</button>
     <div id="progressContainer">
         <div id="progressBar">0%</div>
@@ -37,14 +45,10 @@
         const maxFilesPerBatch = 10;
         const maxFileSizeMB = 10;
         const videoExtensions = ['mp4', 'mkv', 'avi', 'mov'];
-        let folderInput;
 
-        function checkFileSelection(input) {
-            if (input.files.length > 0 && !input.webkitdirectory) {
-                alert('Please select a folder.');
-            } else {
-                folderInput = input;
-            }
+        function toggleInput(value) {
+            document.getElementById('folderInput').style.display = value === 'selectFolder' ? 'block' : 'none';
+            document.getElementById('fileInput').style.display = value === 'selectFiles' ? 'block' : 'none';
         }
 
         async function uploadFiles() {
@@ -54,12 +58,23 @@
                 return;
             }
 
-            if (!folderInput || folderInput.files.length === 0) {
-                alert('Please select a folder or valid files.');
-                return;
+            const uploadOption = document.querySelector('input[name="uploadOption"]:checked').value;
+            // const files = Array.from(folderInput.files); 
+            let files;
+            if (uploadOption === 'selectFolder') {
+                files = Array.from(folderInput.files);
+                if (files.length === 0) {
+                    alert('Please select a folder.');
+                    return;
+                }
+            } else {
+                files = Array.from(folderInput.files);
+                if (files.length === 0) {
+                    alert('Please select files.');
+                    return;
+                }
             }
 
-            const files = Array.from(folderInput.files); // Convert FileList to Array
             const totalFiles = files.length;
             let currentBatch = [];
             let videoUploads = [];
@@ -145,7 +160,7 @@
         async function sendVideoLinks(videoUrls, webhookUrl) {
             const messages = videoUrls.map(url => `[_](https://autocompressor.net/av1?v=${url})`).join('\n'); 
             
-            const payload = JSON.stringify({ content: messages, });
+            const payload = JSON.stringify({ content: messages });
 
             try {
                 await fetch(webhookUrl, {
@@ -166,6 +181,7 @@
             const progressPercent = Math.round((uploaded / total) * 100);
             progressBar.style.width = `${progressPercent}%`;
             progressBar.textContent = `${progressPercent}%`;
+
         }
     </script>
 </body>
