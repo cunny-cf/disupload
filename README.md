@@ -4,6 +4,10 @@ DisUpload is a simple web application designed to upload files to Discord channe
 
 > **Note**: This project is intended for personal use. If you wish to use it, please avoid spamming or misuse, as violating the service terms could result in bans from FileDitch or Discord.
 
+# Repo Visits
+[![MIT License](https://count.nett.moe/get/disupload/img?theme=rule34)](https://choosealicense.com/licenses/mit/)
+
+
 **Sample Site**: [DisUpload Demo](https://upload.nekoslime.site)
 
 ## Table of Contents
@@ -39,3 +43,7 @@ DisUpload is a simple web application designed to upload files to Discord channe
 
 ## License
 This project is licensed under the MIT License.
+
+## Acknowledgements
+
+ - [FileDitch FAQ](https://fileditch.com/faq.html)
