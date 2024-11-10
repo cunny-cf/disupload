@@ -1,0 +1,16 @@
+{
+  "name": "DisUpload",
+  "short_name": "DisUpload",
+  "description": "Upload file using webhook",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#101010",
+  "icons": [
+    {
+      "src": "disupload.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}
