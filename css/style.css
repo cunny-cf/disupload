@@ -12,16 +12,17 @@ body, html {
     justify-content: center;
     align-items: center;
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #101010;
 }
 
 .container {
     text-align: center;
     background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0px 4px 20px #f0f0f0;
     width: 500px;
+    height: 600px;
 }
 
 h1 {
@@ -43,7 +44,7 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .fileUpload {
@@ -56,7 +57,7 @@ input[type="text"],
 input[type="file"] {
     width: 100%;
     padding: 10px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
 }
@@ -69,7 +70,7 @@ button {
     border-radius: 5px;
     cursor: pointer;
     font-size: 1.1em;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
 }
 
 button:hover {
@@ -80,6 +81,7 @@ button:hover {
 #progressContainer {
     width: 100%;
     background-color: #f3f3f3;
+    border-radius: 20px;
     border: 1px solid #ccc;
     margin-top: 20px;
 }
@@ -95,18 +97,18 @@ button:hover {
 
 textarea {
     width: 100%;
-    height: 150px;
-    margin-top: 20px;
+    height: 130px;
+    margin-top: 10px;
     padding: 10px;
     font-size: 1em;
     resize: none;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 25px;
     color: #333;
 }
 
 #uploadBtn, #cancelUploadBtn {
-    margin-top: 20px;
+    margin-top: 5px;
 }
 #cancelUploadBtn {
     display: none;
